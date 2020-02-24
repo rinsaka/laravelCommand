@@ -24,19 +24,17 @@ class CommentsController extends Controller
 
   public function store(Request $request)
   {
-    //dd($request);
-
     $this->validate($request, [
       'numberOfComments' => 'required|integer|min:1|max:1000'
     ]);
 
-    for ($i = 1; $i <= $request->numberOfComments; $i++) {
-      usleep(1330000);  // 1.33 秒スリープする
-      $comment = new Comment();
-      $comment->title = $i . '件目のコメント';
-      $comment->body = 'コメント' . $i . 'の本文';
-      $comment->save();
-    }
+    // コマンドを準備して実行する
+    $artisan = base_path() . '/artisan command:StoreCommentsCommand';
+    $argument = $request->numberOfComments;
+    $command = "php {$artisan} {$argument}";
+    // ここを有効にしてどのようなコマンドが実行されるのか確認すると良い．
+    // dd("nohup {$command} > /dev/null &");
+    exec("nohup {$command} > /dev/null &");
 
     return redirect('/comments');
   }
