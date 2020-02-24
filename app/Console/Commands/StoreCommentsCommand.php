@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Comment;
 
 class StoreCommentsCommand extends Command
 {
@@ -11,7 +12,7 @@ class StoreCommentsCommand extends Command
    *
    * @var string
    */
-  protected $signature = 'command:name';
+  protected $signature = 'command:StoreCommentsCommand';   // ここがコマンドの名前になる
 
   /**
    * The console command description.
@@ -37,6 +38,12 @@ class StoreCommentsCommand extends Command
    */
   public function handle()
   {
-    //
+    for ($i = 1; $i <= 5; $i++) {
+      usleep(1330000);  // 1.33 秒スリープする
+      $comment = new Comment();
+      $comment->title = $i . '件目のコメント';
+      $comment->body = 'コメント' . $i . 'の本文';
+      $comment->save();
+    }
   }
 }
