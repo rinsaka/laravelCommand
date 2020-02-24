@@ -12,7 +12,7 @@ class StoreCommentsCommand extends Command
    *
    * @var string
    */
-  protected $signature = 'command:StoreCommentsCommand';   // ここがコマンドの名前になる
+  protected $signature = 'command:StoreCommentsCommand {cnt=5}';   // ここがコマンドの名前になる
 
   /**
    * The console command description.
@@ -38,7 +38,9 @@ class StoreCommentsCommand extends Command
    */
   public function handle()
   {
-    for ($i = 1; $i <= 5; $i++) {
+    // コマンドプションを取得する
+    $cnt = $this->argument('cnt');
+    for ($i = 1; $i <= $cnt; $i++) {
       usleep(1330000);  // 1.33 秒スリープする
       $comment = new Comment();
       $comment->title = $i . '件目のコメント';
